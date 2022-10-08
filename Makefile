@@ -1,7 +1,7 @@
 #
 # This script expects the following variables:
 #      ROOT     
-VAULTDOWNLOAD := "https://www.vaultproject.io/downloads/"
+VAULTDOWNLOAD := "https://www.vaultproject.io/downloads"
 
 VAULTVERS = $$(wget -O - -q $(VAULTDOWNLOAD) | awk -f vault.awk  )
 VAULTURL = https://releases.hashicorp.com/vault/$(VAULTVERS)/vault_$(VAULTVERS)_linux_amd64.zip
@@ -20,7 +20,13 @@ help:
 vaultvers:
 	@echo "vault      " $(VAULTVERS)
 
+# next two targets are mostly for testing
+vaultzip: bin/vault.zip
 
+bin/vault.zip:
+	@wget -q -O bin/vault.zip $(VAULTURL)
+
+# docker build
 build:
 	@docker build -t $(IMAGE):$(VAULTVERS) -t $(IMAGE):latest  --build-arg VERSION=$(VAULTVERS) .
 
