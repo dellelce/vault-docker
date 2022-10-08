@@ -20,6 +20,13 @@ help:
 vaultvers:
 	@echo "vault      " $(VAULTVERS)
 
+# download and install vault in bin directory
+bin/vault:
+	@wget -q -O bin/vault.zip $(VAULTURL) && unzip -q bin/vault.zip -d bin && \
+         rm bin/vault.zip && ls -lt bin/vault
+
+vaultbin: bin/vault
+
 # next two targets are mostly for testing
 vaultzip: bin/vault.zip
 
